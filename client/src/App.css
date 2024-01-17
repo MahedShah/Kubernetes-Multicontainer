@@ -5,3 +5,7 @@
 .header a {
   margin-left: 20px;
 }
+.main {
+  padding: 10px;
+  background: #ccc;
+}
