@@ -1,15 +1,15 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import "./MainComponent.css";
 
 const MainComponent = () => {
-  const [values, setvalues] = useState([]);
+  const [values, setValues] = useState([]);
   const [value, setValue] = useState("");
 
   const getAllNumbers = useCallback(async () => {
     //we will use nginx to redirect it to the proper url
-    const values = await axios.get("/api/values/all");
-    setvalues(values);
+    const data = await axios.get("/api/values/all");
+    setValues(data.data.rows.map(row => row.number));
   }, []);
 
   const saveNumber = useCallback(
@@ -17,13 +17,18 @@ const MainComponent = () => {
       event.preventDefault();
 
       await axios.post("/api/values", {
-        value,
+        value
       });
+
       setValue("");
       getAllNumbers();
     },
     [value, getAllNumbers]
   );
+
+  useEffect(() => {
+    getAllNumbers();
+},[]);
 
   return (
     <div>
@@ -31,7 +36,7 @@ const MainComponent = () => {
       <br />
       <span className="title">Values</span>
       <div className="values">
-        {values.map((value) => (
+        {values.map(value => (
           <div className="value">{value}</div>
         ))}
       </div>
@@ -39,8 +44,8 @@ const MainComponent = () => {
         <label>ENter your value: </label>
         <input
           value={value}
-          onChange={(event) => {
-            setValue(evnet.target.value);
+          onChange={event => {
+            setValue(event.target.value);
           }}
         />
         <button>Submit</button>
