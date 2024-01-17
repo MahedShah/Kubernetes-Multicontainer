@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
+import "./MainComponent.css";
 
 const MainComponent = () => {
   const [values, setvalues] = useState([]);
@@ -12,10 +13,10 @@ const MainComponent = () => {
     <div>
       <button onClick={getAllNumbers}> Get all numbers</button>
       <br />
-      <span>Values</span>
-      <div>
+      <span className="title">Values</span>
+      <div className="values">
         {values.map((value) => (
-          <div>{value}</div>
+          <div className="value">{value}</div>
         ))}
       </div>
     </div>
